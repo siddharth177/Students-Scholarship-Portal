@@ -1,0 +1,10 @@
+.user-enter {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+button {
+    background-color: #FF4B2B;
+    border: #FF416C;
+}
