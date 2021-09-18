@@ -1,1 +1,0 @@
-# Students-Scholarship-Portal
