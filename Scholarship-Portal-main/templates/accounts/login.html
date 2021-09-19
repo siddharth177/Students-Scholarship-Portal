@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}Home NIT ADDA{% endblock title %}
+{% load static %}
+{% block content %}
+    <body onload="Check()">
+    <div class="row main_header">
+        <!-- <center><h2><b>Registration</b></h2></center>
+         <br>-->
+    </div>
+    <script>
+        $(document).ready(function () {
+            // messages timeout for 10 sec
+            setTimeout(function () {
+                $('.message_container').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+    <div class="container">
+        {% if messages %}
+            {% for mes in messages %}
+                <div class="alert alert-warning message_container">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>{{ mes }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="row" style="margin-top: 10%;">
+            <div class="col-sm-6 col-sm-offset-3">
+
+                <div id="uploadForm" class="row" style="width: 700px; height: 400px;">
+                    <div class="col-sm-6">
+                        <legend><h1>Login</h1></legend>
+                        <form method="POST" action="/login/">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="formText" for="firstName">Username</label>
+                                <input for="firstName" class="form-control" name="username" id="fn" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="formText" for="password1">Password</label>
+                                <input for="password1" class="form-control" id="password" name="password" type="password"
+                                    required>
+                            </div>
+
+                            <center>
+                                <button type="submit" class="myButton">Login</button>
+                            </center>
+                        </form>
+                    </div>
+                    <div  class="col-sm-6 overlay" style="height: 100%; text-align: center">
+                        <!-- <small class="text-muted"> -->
+                            <h1>Hello, Students! </h1>
+                            <br>
+                            Not registered? <br>Enter your personal details and get started.<br>
+                            <button onclick="location.href = '../student/register';" class="myButton" style="margin: 125px auto; border: 1px white solid;">Sign Up</button>
+                            <!-- <br>Or<br>
+                            <a class="ml-2" href="staff/register">Register as Staff member</a> -->
+                        <!-- </small> -->
+                    </div>
+                    <!-- <div class="col-sm-12 border-top pt-3">
+                        <small class="text-muted">
+                            Need registered?<br>
+                            <a class="ml-2" href="student/register">Register as Student</a>
+                            <br>Or<br>
+                            <a class="ml-2" href="staff/register">Register as Staff member</a>
+                        </small>
+                    </div> -->
+                    <br>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+    {# Main Section #}
+{% endblock content %}

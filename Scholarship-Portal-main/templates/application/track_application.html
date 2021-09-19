@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content3 %}"../media/{{ user.image }}"{% endblock content3 %}
+{% block content4 %}"../media/{{ user.image }}"{% endblock content4 %}
+{% block content %}
+    <head>
+        <script>
+            $(document).ready(function () {
+                $('select#selectDesignation').change(function () {
+                    let optionSelected = $(this).find("option:selected");
+                    {#let valueSelected  = optionSelected.val();#}
+                    let designation_title = optionSelected.text();
+                    console.log("Designation selected is :", designation_title);
+                    $.ajax({
+                        url: "/accounts/getNames/",
+                        type: "POST",
+                        data: {'d': designation_title},
+                        success: function (names) {
+                            $("#selectNames option").remove();
+                            $("#selectNames").append("<option selected disabled>Choose Name</option>");
+                            for (var i = names.length - 1; i >= 0; i--) {
+                                {
+                                    console.log(names[i].id + "   ");
+                                }
+                                $("#selectNames").append("<option value=" + names[i].id + ">" + names[i].first_name+" "+
+                                    names[i].last_name+ "</option>");
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+    {% if messages %}
+        {% for mes in messages %}
+            <div class="alert alert-success message_container">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>{{ mes }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="row main_header" style="text-align: center">
+        <h2>Track application by Reference ID</h2>
+        <form method="POST" action="{%  url 'content:Track_Application' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group" style="width: 40%; margin: 25px auto">
+{#                <input type="hidden" name="id_checker" id="idChecker" value="0">#}
+                <label class="formText">Enter application id</label>
+                <input typ="text" name="app_id" required>
+            </div>
+            <center>
+                <button type="submit" id="btn"  class="formButton">Search</button>
+            </center>
+        </form>
+    </div>
+
+    {% if application %}
+        <div class="container" >
+        <div>
+            <table class="table table-striped dt-responsive table-responsive-md" id="display_table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Application ID</th>
+                    <th scope="col">Applicant Name</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Attached Documents</th>
+                    {% if user.is_admin %}
+                        <th scope="col">Actions</th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td style="vertical-align:middle">{{ application.app_id }}</td>
+                    <td style="vertical-align:middle">{{ application.applicant.first_name }} {{ application.applicant.last_name }}</td>
+                    <td style="vertical-align:middle">{{ application.title }}</td>
+                    {% if application.is_approved %}
+                        <td style="vertical-align:middle;color:green">Approved</td>
+                    {% elif application.is_rejected %}
+                        <td style="vertical-align:middle;color:red">Rejected</td>
+                    {% else %}
+                        <td style="vertical-align:middle;color:blue">Pending</td>
+                    {% endif %}
+                        <td style="vertical-align:middle"><a href="../../media/{{ application.attached_pdf }}">View</a></td>
+
+                    {% if user.is_admin %}
+                        {% if user.is_authenticated %}
+                            {% if application.is_approved  %}
+                                <td style="vertical-align:middle;color:red">N/A</td>
+                            {% else %}
+                            <td scope="col">
+                                <a id="{{ i.app_id }}" class="btn btn-success"data-toggle="modal" data-target="#myModal"
+                                       onclick="return approveButtonClicked(this.id)">Approve</a>
+                                <a id="{{ i.app_id }}1" class="btn btn-danger"data-toggle="modal" data-target="#myModal"
+                                           onclick="return rejectButtonClicked(this.id)">Reject</a>
+                            </td>
+                            {% endif %}
+                        {% else %}
+                            <td style="vertical-align:middle;color:red">N/A</td>
+                        {% endif %}
+                    {% endif %}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock content %}

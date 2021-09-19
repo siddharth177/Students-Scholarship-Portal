@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}NITW SP{% endblock title %}
+{% load static %}
+{% block content3 %}"../media/{{ user.image }}"{% endblock content3 %}
+{% block content4 %}"../media/{{ user.image }}"{% endblock content4 %}
+{% block content %}
+    <head>
+        <script src="https://kit.fontawesome.com/57456f662e.js" crossorigin="anonymous"></script>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    </head>
+    <body>
+
+        <div class="site-section">
+            <div class="container">
+                <div>
+                    <table class="table table-striped dt-responsive table-responsive-md" id="display_table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">S. No.</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Documents</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in user_applications %}
+                            <tr>
+                                <td style="vertical-align:middle">{{ forloop.counter }}</td>
+                                <td style="vertical-align:middle">{{ i.title }}</td>
+                                <td  style="vertical-align:middle"><a href="../../media/{{ i.attached_pdf }}">View</a></td>
+                                {% if i.is_approved %}
+                                    <td style="color:green">Approved</td>
+                                {% elif i.is_rejected %}
+                                    <td style="color:red">Yes</td>
+                                {% else %}
+                                    <td style="color:blue">Pending</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+
+{% endblock content %}
