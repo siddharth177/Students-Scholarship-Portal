@@ -1,6 +1,7 @@
 body {
     background-color: #FF9A8B;
     background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 51%, #FF99AC 100%);
+
 }
 
 .wdth {
@@ -12,3 +13,31 @@ body {
     text-align: center;
 }
 
+button{
+    background: none;
+	border: 1px solid #FF4B2B;
+	background-color: #FF4B2B;
+    border-radius: 20px;
+    margin: 2em;
+    padding: 0.6em 2em;
+    font-size: 1em;
+	font-weight: bold;
+	letter-spacing: 0.5em;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+button:active {
+	transform: scale(0.95);
+}
+
+button:focus {
+	outline: none;
+}
+
+button:hover{
+    border-color: #FFAB91  ;
+    color: #FBE9E7;
+    box-shadow: 0 0.5em 0.5em -0.4em   #EF6C00 ;
+    transform: translateY(-0.2em);
+    cursor: pointer;
+}
